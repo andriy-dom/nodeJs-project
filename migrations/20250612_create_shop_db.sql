@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS shop_online
-USE shop_online
+CREATE DATABASE IF NOT EXISTS shop_online;
+USE shop_online;
 
 CREATE TABLE products (
 	id INT PRIMARY KEY AUTO_INCREMENT,
@@ -8,12 +8,12 @@ CREATE TABLE products (
     price INT,
     colour VARCHAR(100),
     FOREIGN KEY (type_product) REFERENCES type_products(id)
-)
+);
 
 CREATE TABLE type_products (
 	id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100)
-)
+);
 
 CREATE TABLE users (
 	id INT PRIMARY KEY AUTO_INCREMENT,
@@ -22,7 +22,7 @@ CREATE TABLE users (
     birth_date DATE,
     email VARCHAR(100) UNIQUE,
     password VARCHAR(100)
-)
+);
 
 CREATE TABLE orders (
 	id INT PRIMARY KEY AUTO_INCREMENT,
@@ -32,4 +32,4 @@ CREATE TABLE orders (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (product_id) REFERENCES products(id)
-)
+);

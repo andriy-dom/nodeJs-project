@@ -1,12 +1,14 @@
 import mysql from 'mysql2/promise';
-import keys from '.config/keys.js';
+import keys from './config/keys.js';
 
 async function createConnection() {
     const connection = await mysql.createConnection({
         host: 'localhost',
         user: 'root',
         password: keys.password,
-        database: 'shop_online'
+        database: 'shop_online',
+        waitForConnections: true,
+        connectionLimit: 10
     });
     return connection;
 }

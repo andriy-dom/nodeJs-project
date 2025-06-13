@@ -10,6 +10,6 @@
      // http://localhost:3000/category
     router.post('/', createCategory);
     router.get('/', getAllCategories);
-    router.get('/:categoryId', getCategoryItemsById);
+    router.get('/products/:categoryId', getCategoryItemsById);
 
     export default router; 

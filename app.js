@@ -4,7 +4,9 @@
     import productRoutes from './routes/product.js';
     import orderRoutes from './routes/order.js';
     const app = express();
-    
+
+    app.use(express.json());
+
     // http://localhost:3000
     app.use('/auth', authRoutes);
     app.use('/category', categoryRoutes);

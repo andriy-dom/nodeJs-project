@@ -1,3 +1,4 @@
+    import db from '../db.js';
     import bcrypt from 'bcrypt';
     import jwt from 'jsonwebtoken';
     import keys from '../config/keys.js';
@@ -6,17 +7,17 @@
     const login = async (req, res) => {
         const { email, password } = req.body;
         //перевіряємо чи існує юзер в базі даних за таким email, якщо + отримаєм id, пароль
-        const [resultCheckUser] = await db.query(`SELECT id, password FROM users WHERE email = ?` [email])
+        const [resultCheckUser] = await db.query(`SELECT id, password FROM users WHERE email = ?`, [email])
 
         if (resultCheckUser.length > 0) {
             //перевірка паролю, користувач існує
-            const passwordResult = bcrypt.compareSync(password, resultCheckUser.password);
+            const passwordResult = bcrypt.compareSync(password, resultCheckUser[0].password);
 
             if (passwordResult) {
                 //паролі співпали, генеруєм токен
                 const token = jwt.sign({
                     email: email,
-                    userId: resultCheckUser.id
+                    userId: resultCheckUser[0].id
                 }, keys.jwt, {expiresIn: 60 * 60});
                 res.status(200).json({
                     token: `Bearer ${token}`
@@ -40,7 +41,7 @@
         const { name, surname, birth_date, email, password} = req.body;
         const [resultEmail] = await db.query(`SELECT id FROM users WHERE email = ?`, [email])
 
-        if (!resultEmail.length > 0) {
+        if (resultEmail.length > 0) {
             //користувач вже існує, потрібно відправити помилку
             res.status(409).json({
                 message: 'This email is busy, try another one'
