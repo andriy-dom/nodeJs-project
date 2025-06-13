@@ -16,8 +16,8 @@
     const getAllCategories = async (req, res) => {
         const baseUrl = 'http://localhost:3000'
         try {
-            const categoriesFromDb = await db.query(`SELECT id, name FROM type_products`);
-            res.status(200).send(categoriesFromDb.map(category => ({id: category.id, name: category.name, url: baseUrl + `/products/${category.id}`})))
+            const [categoriesFromDb] = await db.query(`SELECT id, name FROM type_products`);
+            res.status(200).send(categoriesFromDb.map(category => ({id: category.id, name: category.name, url: baseUrl + `/category/products/${category.id}`})))
         } catch (error) {
             
         }
@@ -25,10 +25,10 @@
 
     // http://localhost:3000/category/products/:categoryId
     const getCategoryItemsById = async (req, res) => {
-        const { id } = req.params.categoryId;
+        const id  = req.params.categoryId;
         try {
             const [rows] = await db.query(`SELECT * FROM products WHERE type_product = ?`, [id]);
-            if(rows.length < 0) {
+            if(rows.length === 0) {
                 res.json({
                     message: 'No products found in this category'
                 })
