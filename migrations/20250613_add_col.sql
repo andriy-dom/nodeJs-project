@@ -1,0 +1,4 @@
+ALTER TABLE products
+ADD COLUMN size INT,
+ADD COLUMN brand VARCHAR(100),
+ADD COLUMN description VARCHAR (255);
