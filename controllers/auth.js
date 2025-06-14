@@ -38,7 +38,7 @@
 
     const register = async (req, res) => {
         //email password
-        const { name, surname, birth_date, email, password} = req.body;
+        const { name, surname, birth_date, email, password } = req.body;
         const [resultEmail] = await db.query(`SELECT id FROM users WHERE email = ?`, [email])
 
         if (resultEmail.length > 0) {

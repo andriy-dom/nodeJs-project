@@ -18,8 +18,8 @@
         try {
             const [categoriesFromDb] = await db.query(`SELECT id, name FROM type_products`);
             res.status(200).send(categoriesFromDb.map(category => ({id: category.id, name: category.name, url: baseUrl + `/category/products/${category.id}`})))
-        } catch (error) {
-            
+        } catch (err) {
+            errorHandler(res, err);
         }
     }
 
