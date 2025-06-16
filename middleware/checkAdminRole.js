@@ -8,7 +8,7 @@ export default function checkRole(role) {
         }
         if(req.user.role !== role) {
             return res.status(403).json({
-                message: 'Forbidden: Insufficient role'
+                message: 'This feature is available only to the administrator'
             })
         } 
         next()

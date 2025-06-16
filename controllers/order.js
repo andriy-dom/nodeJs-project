@@ -2,9 +2,16 @@
     import errorHandler from '../utils/errorHandler.js';
 
     const createOrder = async (req, res) => {
-        const { user_id, product_id } = req.body;
+        const { user_id, product_id, quantity_product } = req.body;
         try {
-            const [rows] = await db.query(`INSERT INTO orders (user_id, product_id, status) VALUES (?, ?, ?)`, [user_id, product_id, 'created'])
+            const [check] = await db.query(`SELECT quantity FROM products WHERE id = ?`, [product_id]);
+            if(check[0].quantity < quantity_product) {
+	            return res.json({ message: 'No such products'});
+            } 
+
+            const [rows] = await db.query(`INSERT INTO orders (user_id, product_id, status, quantity_product) VALUES (?, ?, ?, ?)`, [user_id, product_id, 'created', quantity_product]);
+
+            await db.query(`UPDATE products SET quantity = quantity - ? WHERE id = ?`, [quantity_product, product_id]);
             res.status(201).json({
                 message: 'Order succsessfully created!',
                 order_id: rows.insertId

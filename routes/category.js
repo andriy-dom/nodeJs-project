@@ -4,14 +4,16 @@
     import {
         createCategory,
         getAllCategories,
-        getCategoryItemsById
+        getCategoryItemsById,
+        updateQuantity
     } from '../controllers/category.js';
 
     const router = express.Router();
 
      // http://localhost:3000/category
     router.post('/', authMiddleware, checkRole('admin'), createCategory);
-    router.get('/', getAllCategories);
-    router.get('/products/:categoryId', getCategoryItemsById);
+    router.get('/', authMiddleware, getAllCategories);
+    router.get('/products/:categoryId', authMiddleware, getCategoryItemsById);
+    router.put('/product/update/:productId', authMiddleware, checkRole('admin'),  updateQuantity);
 
     export default router; 
