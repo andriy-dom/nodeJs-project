@@ -23,10 +23,9 @@
         }
     }
 
-    // http://localhost:3000/category/products/:categoryId
     const getCategoryItemsById = async (req, res) => {
         const id  = req.params.categoryId;
-        const baseUrl = 'http://localhost:3000/category';
+        const baseUrl = 'http://localhost:3000';
         try {
             const [rows] = await db.query(`SELECT * FROM products WHERE type_product = ?`, [id]);
             if(rows.length === 0) {
@@ -40,26 +39,11 @@
         }
     }
 
-    // http://localhost:3000/category/product/update/:productId
-    const updateQuantity = async (req, res) => {
-        const id = req.params.productId;
-        const quantity = req.body.quantity;
-        try {
-            await db.query(`UPDATE products SET quantity = ? WHERE id = ?`, [quantity, id]);
-            res.status(201).json({
-                message: `Product successfully updated!` //можна ще подумати щоб повертати кількість товару після оновлення
-            }) 
-        } catch (err) {
-            errorHandler(res, err);
-        }
-    }
+
 
     export {
         createCategory,
         getAllCategories,
-        getCategoryItemsById,
-        updateQuantity
+        getCategoryItemsById
     }
 
-    //  products: rows,
-    //  update: baseUrl + `/product/update/${rows[0].id}`

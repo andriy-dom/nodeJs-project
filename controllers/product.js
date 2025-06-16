@@ -17,6 +17,49 @@
         }
     }
 
+        const updateQuantity = async (req, res) => {
+            const id = req.params.productId;
+            const baseUrl = 'http://localhost:3000/product'
+            try {
+                res.status(200).json({
+                    addQuantity: baseUrl + `/add-quantity/${id}`,
+                    cancellationQuantity: baseUrl + `/calcellation-quantity/${id}`
+                }) 
+            } catch (err) {
+                errorHandler(res, err);
+            }
+        }
+
+        const addQuantity = async (req, res) => {
+            const id = req.params.productId;
+            const quantity = req.body.quantity
+            try {
+                await db.query(`UPDATE products SET quantity = quantity + ? WHERE id = ?`, [quantity, id]);
+                const [rows] = await db.query(`SELECT quantity FROM products WHERE id = ?`, [id]);
+                res.status(200).json({
+                    message: `Added ${quantity} quantity product(-s)`,
+                    current_quantity: rows[0].quantity
+                }) 
+            } catch (err) {
+                errorHandler(res, err);
+            }
+        }
+
+        const cancellationQuantity = async (req, res) => {
+            const id = req.params.productId;
+            try {
+                await db.query(`UPDATE products SET quantity = 0 WHERE id = ?`, [id]);
+                res.status(200).json({
+                    message: `quantity product successfully cancelled`,
+                }) 
+            } catch (err) {
+                errorHandler(res, err);
+            }
+        }
+
     export {
-        createProduct
+        createProduct,
+        updateQuantity,
+        addQuantity,
+        cancellationQuantity
     }
