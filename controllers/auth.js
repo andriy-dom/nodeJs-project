@@ -38,7 +38,7 @@
 
     const register = async (req, res) => {
         //email password
-        const { name, surname, birth_date, email, password } = req.body;
+        const { name, surname, birth_date, email, password, role } = req.body;
         const [resultEmail] = await db.query(`SELECT id FROM users WHERE email = ?`, [email])
 
         if (resultEmail.length > 0) {
@@ -51,9 +51,9 @@
             const salt = bcrypt.genSaltSync(10);
             const hashPassword = bcrypt.hashSync(password, salt);
             try {
-                const [user] = await db.query(`INSERT INTO users (name, surname, birth_date, email, password) 
-                    VALUES (?, ?, ?, ?, ?)`, 
-                    [name, surname, birth_date, email, hashPassword]);
+                const [user] = await db.query(`INSERT INTO users (name, surname, birth_date, email, password, role) 
+                    VALUES (?, ?, ?, ?, ?, ?)`, 
+                    [name, surname, birth_date, email, hashPassword, role]);
                 
                 res.status(201).json({
                     message: 'User succsessfully created!',
