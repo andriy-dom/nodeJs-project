@@ -20,6 +20,10 @@
             return res.status(401).json({ message: 'User not found'})
         }
 
+        if(rows[0].is_blocked) {
+            return res.status(403).json({ message: 'Your account is blocked' })
+        }
+
         req.user = rows[0];
         next()
         } catch (error) {

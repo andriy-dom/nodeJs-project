@@ -1,5 +1,5 @@
     import db from '../db.js';
-    import client from '../redisClient.js';
+    import client from '../redis/redisClient.js';
     import errorHandler from '../utils/errorHandler.js';
 
     const createCategory = async (req, res) => {
@@ -36,7 +36,7 @@
     const getCategoryItemsById = async (req, res) => {
         const id  = req.params.categoryId;
         const baseUrl = 'http://localhost:3000';
-        const cacheKey = 'all:items:category';
+        const cacheKey = `category:${id}:items`;
         try {
             const cached = await client.get(cacheKey);
             if(cached) {

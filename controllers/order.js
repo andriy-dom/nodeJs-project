@@ -25,6 +25,12 @@
         const { orderId } = req.params;
         const baseUrl = 'http://localhost:3000'
         try {
+            const [checkBlockUser] = await db.query(`SELECT users.is_blocked FROM users JOIN orders ON orders.user_id = users.id WHERE orders.id = ?`, [orderId]);
+            
+            if (checkBlockUser[0].is_blocked) {
+                return res.status(403).json({ message: 'The author of this order is blocked' });
+            }
+            
             const [rows] = await db.query(`SELECT status FROM orders WHERE id = ?`, [orderId]);
 
             if(rows.length === 0) {
