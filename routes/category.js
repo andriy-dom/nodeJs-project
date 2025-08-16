@@ -1,6 +1,5 @@
     import express from 'express';
     import authMiddleware from '../middleware/authMiddleware.js';
-    import sessionAuth from '../middleware/sessionAuth.js';
     import checkRole from '../middleware/checkAdminRole.js';
     import {
         createCategory,
@@ -12,7 +11,7 @@
 
      // http://localhost:3000/category
     router.post('/', authMiddleware, checkRole('admin'), createCategory);
-    router.get('/', authMiddleware, sessionAuth, getAllCategories);
-    router.get('/products/:categoryId', authMiddleware, sessionAuth, getCategoryItemsById);
+    router.get('/', authMiddleware, getAllCategories);
+    router.get('/products/:categoryId', authMiddleware, getCategoryItemsById);
 
     export default router; 

@@ -19,11 +19,11 @@
 
         const updateQuantity = async (req, res) => {
             const id = req.params.productId;
-            const baseUrl = 'http://localhost:3000/product'
+            const baseUrl = 'http://localhost:3000'
             try {
                 res.status(200).json({
-                    addQuantity: baseUrl + `/add-quantity/${id}`,
-                    cancellationQuantity: baseUrl + `/calcellation-quantity/${id}`
+                    addQuantity: baseUrl + `/product/add-quantity/${id}`,
+                    cancellationQuantity: baseUrl + `/product/calcellation-quantity/${id}`
                 }) 
             } catch (err) {
                 errorHandler(res, err);
